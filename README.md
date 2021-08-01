@@ -1,4 +1,6 @@
 # Web thêm và hiển thị các sản phẩm đơn giản
+https://nncchifitus.github.io/simple-add-and-show-item-program/
+
 Có 2 chức năng chính:
 - Chức năng thêm sản phẩm:
   - Thêm tên sản phẩm

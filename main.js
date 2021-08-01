@@ -78,13 +78,13 @@ var loadChart = function(year) {
         return item.date.getFullYear() == year;
     })
 
-    // array 12*0 amounts of months
+    // array 12*0 prices per month
     var monthsValue = []
     for (var i=0; i<12; i++) {
         monthsValue.push(0)
     }   
 
-    // Count sum expense by months
+    // Count sum item prices per month
     listItemsOfCurrentYear.forEach(function(item) {
         monthsValue[item.date.getMonth()] += item.amount;
     })
@@ -138,7 +138,6 @@ var loadItems = function(year){
                             $${item.amount}
                         </div>
                     </div>`
-            
         })
     
     }

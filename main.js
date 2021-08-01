@@ -1,10 +1,10 @@
-// Items
+// Define items
 // Date.month 0-11
 var i1 = {
     id: 1,
     title: "iphoneX",
     amount: 150,
-    date: new Date (2020, 6, 20),       //20/7
+    date: new Date (2020, 6, 20),       
 }
 
 var i2 = {
@@ -25,7 +25,7 @@ var i4 = {
     id: 4,
     title: "Oppo reno5",
     amount: 100,
-    date: new Date(2021, 4, 16),        //16/5
+    date: new Date(2021, 4, 16),        
 }
 
 var i5 = {
@@ -64,9 +64,8 @@ var i9 = {
 }
 
 var listItems = [i1, i2, i3, i4, i5, i6, i7, i8, i9]
-var listMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
-'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-
+var listMonths = [  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 listYears = [2020, 2021, 2022, 2023]
 
 // Functions
@@ -74,7 +73,7 @@ listYears = [2020, 2021, 2022, 2023]
 // Load chart
 var loadChart = function(year) {
 
-    // get full items of current year
+    // Get full items of current year
     listItemsOfCurrentYear = listItems.filter(function(item) {
         return item.date.getFullYear() == year;
     })
@@ -85,6 +84,7 @@ var loadChart = function(year) {
         monthsValue.push(0)
     }   
 
+    // Count sum expense by months
     listItemsOfCurrentYear.forEach(function(item) {
         monthsValue[item.date.getMonth()] += item.amount;
     })
@@ -92,7 +92,10 @@ var loadChart = function(year) {
     // Get max of months value
     maxMonthsValue = Math.max(...monthsValue)
 
+    // Get chart element
     var barChartElement = document.querySelector('.bar-chart')
+
+    // HTML of 12 months
     htmls = ''
     listMonths.forEach(function(month,index) {
         htmls += `<div class="chart-item" data-label="${month}">
@@ -101,8 +104,9 @@ var loadChart = function(year) {
                     </div>
                 </div>`
     })
-    barChartElement.innerHTML = htmls
 
+    // Add bar chart for charts emelent
+    barChartElement.innerHTML = htmls
 }
 
 // Load all items of 1 year
@@ -111,12 +115,13 @@ var loadItems = function(year){
     // Load list item
     var listItemsElement = document.querySelector('.list-items')
 
+    // Get full items of current year
     listItemsOfCurrentYear = listItems.filter(function(item) {
         return item.date.getFullYear() == year;
     })
 
+    // HTML of all items of current year
     htmls = ''
-
     if (!listItemsOfCurrentYear.length) {
         htmls = `<h2>Not found</h2>`
     }
@@ -138,43 +143,53 @@ var loadItems = function(year){
     
     }
 
+    // Add items htmls for list items emelent
     listItemsElement.innerHTML = htmls
 }
 
-// Get information of input item
-var handle = function() {
-
-    var titleElement = document.querySelector('input[type="text"]')
-    var amountElement = document.querySelector('input[type="number"]')
-    var dateElement = document.querySelector('input[type="date"]')
-    var formBtnElement = document.querySelector('.form>.form-btn>.btn') 
+// Handle item input
+var handleInput = function() {
     
-    // Handle when click Add Expense
-    formBtnElement.onclick = function() {
-        var titleElement = document.querySelector('.item-title>.rect')
-        var amountElement = document.querySelector('.item-number>.rect')
-        var dateElement = document.querySelector('.item-date>.rect')
+        // Get input elements
+        var titleElement = document.querySelector('input[type="text"]')
+        var amountElement = document.querySelector('input[type="number"]')
+        var dateElement = document.querySelector('input[type="date"]')
+
+        // Get year button element
         var selectYearElement = document.querySelector('.year-select')
 
+        // Get information of item input
         var title = titleElement.value
         var amount = amountElement.value 
         var date = dateElement.value
+
+        // Create item input
         var item = {
             title: title,
             amount: Number(amount),
             date: new Date(date),
         }
 
+        // Add item at 0 index 
         listItems.unshift(item)
 
-        // If year current == year input then load chart and all Items
         if (selectYearElement.value==item.date.getFullYear()) {
             loadChart(selectYearElement.value)
             loadItems(selectYearElement.value)
         }
+}
+// Get information of input item
+var handle = function() {
+
+    // Get form add expense button
+    var formBtnElement = document.querySelector('.form .btn') 
+    
+    // Handle when click Add Expense
+    formBtnElement.onclick = function() {
+        handleInput()
     }
 
-    // Load chart and items when select year
+    // Load chart and items when select different year
     var selectYearElement = document.querySelector('.year-select')
     selectYearElement.onchange = function(e) {
         loadChart(e.target.value)
@@ -183,12 +198,13 @@ var handle = function() {
 }
 
 // Load default
-function load() {
+var load =function() {
     loadChart(2020)
     loadItems(2020)
 }
 
-var main = function (){
+// Main function
+var main = function () {
     load()
     handle();
 }
